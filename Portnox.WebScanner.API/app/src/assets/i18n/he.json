@@ -1,0 +1,36 @@
+{
+    "APP": {
+        "TITLE": "{{value}}",
+        "HOME": "בית"
+    },
+    "LOGIN": {
+        "LOGIN":"התחבר",
+        "ERROR":"פרטי המשתמש אינם נכונים",
+        "USERNAME":"שם משתמש",
+        "PASSWORD":"סיסמה"
+    },
+    "ACTIONS": {
+        "SEARCH": "חפש",
+        "CREATE": "צור",
+        "UPDATE": "עדכן"
+    },
+    "USERS": {
+        "SINGLE": "משתמש",
+        "PLURAL": "משתמשים",
+        "HEADER.USERNAME": "שם משתמש",
+        "HEADER.FNAME": "שם פרטי",
+        "HEADER.LNAME": "שם משפחה",
+        "HEADER.EMAIL": "אימייל",
+        "HEADER.ENABLED": "פעיל",
+        "HEADER.ACTIONS": "פעולות",
+        "USERNAME": "הזן שם משתמש",
+        "LNAME": "הזן שם משפחה",
+        "FNAME": "הזן שם פרטי",
+        "EMAIL": "הזן כתובת מייל",
+        "NEW": "יצירת משתמש",
+        "VERIFYEMAIL": "על המשתמש לאמת את כתובת המייל",
+        "UPDATEPASSWORD": "על המשתמש לעדכן סיסמה",
+        "SUBMIT.ERROR": "יצירת משתמש נכשלה"
+    },
+    "ROLES.TITLE": "תפקידים"
+}

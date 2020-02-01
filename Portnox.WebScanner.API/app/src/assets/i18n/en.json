@@ -1,0 +1,36 @@
+{
+    "APP": {
+        "TITLE": "{{value}}",
+        "HOME": "home"
+    },
+    "LOGIN": {
+        "LOGIN":"Logn",
+        "ERROR":"User details are incorrect",
+        "USERNAME":"Username",
+        "PASSWORD":"Password"
+    },
+    "ACTIONS":{
+        "SEARCH":"Search ...",
+        "CREATE":"Create",
+        "UPDATE":"Update"
+    },
+    "USERS":{
+        "SINGLE":"user",
+        "PLURAL":"users",
+        "HEADER.USERNAME": "User name",
+        "HEADER.FNAME": "First name",
+        "HEADER.LNAME": "Last name",
+        "HEADER.EMAIL": "Email",
+        "HEADER.ENABLED": "Enabled",
+        "HEADER.ACTIONS": "Actions",
+        "USERNAME": "Please fill in user name",
+        "LNAME": "Please fill in last name",
+        "FNAME": "Please fill in first name",
+        "EMAIL": "Please fill in email",
+        "NEW": "Create user",
+        "VERIFYEMAIL": "User will need to verify it's email",
+        "UPDATEPASSWORD": "Update password",
+        "SUBMIT.ERROR":"Create or update user failed"
+    },
+    "ROLES.TITLE": "תפקידים"
+}

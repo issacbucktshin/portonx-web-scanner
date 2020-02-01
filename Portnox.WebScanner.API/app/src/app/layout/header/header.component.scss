@@ -1,0 +1,120 @@
+@import 'variables.scss';
+
+$fontColor:rgba(255, 255, 255, 0.95);
+
+header {
+    direction: $direction;
+    height: $headerHeight;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: $headerColor;
+    z-index: 99;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+    display: flex;
+    align-items: center;
+
+    .menu-icon-container {
+        // float: if($direction == rtl,right,left);
+        flex-grow: 0;
+        height: 100%;
+        padding: 1rem 0.5rem;
+
+        button {
+            background: transparent;
+            box-shadow: none;
+        }
+    }
+
+    .logo {
+        flex-grow: 1;
+        height: 100%;
+
+        img {
+            width: 100px;
+        }
+    }
+
+    .title {
+        flex-grow: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: $fontColor;
+        }
+    }
+
+    .top-navigation {
+        display: none;
+        a {
+            color: $fontColor;
+        }
+    }
+
+    .user {
+        flex-grow: 1;
+        align-self: flex-end;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 0.5rem;
+
+        span {
+            color: $fontColor;
+            margin: 0 0.5rem;
+        }
+
+        img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+        }
+        .user-menu-button{
+            opacity: 0;
+            color: #fff;
+        }
+        &:hover{
+            .user-menu-button{
+                opacity: 1;
+            }
+        }
+    }
+}
+
+
+@media (min-width: 768px) {
+    header {
+
+        .top-navigation {
+            flex-grow: 3;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            mat-nav-list {
+                display: flex;
+            }
+
+            // float: if($direction == rtl,right,left);
+            a {
+                color: $fontColor;
+            }
+        }
+        .user {
+            img {
+                width: 42px;
+                height: 42px;
+            }
+        }
+    }
+
+}

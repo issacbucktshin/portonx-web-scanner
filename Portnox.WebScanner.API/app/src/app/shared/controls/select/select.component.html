@@ -1,0 +1,29 @@
+<div class="selection-container pointer">
+    <div class="single-select-container" *ngIf="!multiple">
+        <mat-form-field>
+            <mat-select [placeholder]="placeholder" [formControl]="valueControl">
+                <div class="filter">
+                    <input placeholder="Search..." autofocus [formControl]="searchControl" (keyup)="c($event)" (keyup.space)="c($event)">
+                </div>
+                <mat-option *ngFor="let value of values" [value]="value">
+                    {{value[displayProperty]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="multiple-select-container" *ngIf="multiple">
+        <mat-form-field>
+            <mat-select [placeholder]="placeholder" [formControl]="valueControl" multiple="true">
+                <div class="filter">
+                    <input placeholder="Search..." autofocus [formControl]="searchControl" (keyup)="c($event)" (keyup.space)="c($event)">
+                </div>
+                <div class="select-all">
+                    <mat-checkbox (change)="toggleAll($event.checked)">{{selectAll ? 'Deselect' :'Select'}} all</mat-checkbox>
+                </div>
+                <mat-option *ngFor="let value of values" [value]="value">
+                    {{value[displayProperty]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

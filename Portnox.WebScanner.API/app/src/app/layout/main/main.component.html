@@ -1,0 +1,6 @@
+<app-header (clicked)="expandSidenav = !expandSidenav"></app-header>
+<side-navigation [expand]="expandSidenav"></side-navigation>
+<div class="main-container" [class.reduce]="expandSidenav">
+    <router-outlet></router-outlet>
+</div>
+<app-footer></app-footer>

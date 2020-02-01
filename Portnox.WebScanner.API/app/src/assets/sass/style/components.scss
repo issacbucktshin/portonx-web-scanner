@@ -1,0 +1,305 @@
+@import "variables.scss";
+
+/*------ Card ------ */
+.card {
+    position: relative;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s ease;
+    border: none;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    header {
+        position: relative;
+        padding: 1.75rem 2rem 0rem 2rem;
+        color: $titleColor;
+
+        .title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            display: block;
+            margin-top: 8px;
+            opacity: 0.5;
+        }
+    }
+
+    .card-toolbar {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 1;
+        color: #666;
+
+        i {
+            cursor: pointer;
+        }
+    }
+
+    .card-body {
+        padding: 1.75rem 2rem;
+    }
+
+    .card-actions {
+        clear: both;
+        padding: 20px 24px;
+        text-align: right;
+    }
+}
+
+/*-----------------------------  Angular Material   ------------------------------------- */
+//Fix material layer issue when used with primeng sidebar and other component
+.cdk-overlay-container {
+    z-index: 9999;
+}
+
+
+/*------------------  Form Controls  ---------- */
+
+/*Angular material input*/
+mat-form-field.mat-form-field {
+    width: 100%;
+    // .mat-select {
+    //     width: 100%;
+    //     line-height: 1.125;
+    //     padding: 0;
+    //     padding: 1rem 0;
+    //     font-size: 1rem;
+    // }
+}
+
+
+/*-----------------------------  Primeng   ------------------------------------- */
+
+.ui-widget-overlay {
+    z-index: 1 !important;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ---- Sidebar ---- */
+
+body div.ui-sidebar {
+    background-color: white;
+    padding: 0;
+    direction: $direction;
+
+    header {
+        padding: 1.5rem 1rem;
+        min-height: 20vh;
+        position: relative;
+        .title{
+          position: relative;
+          z-index: 1;
+          color: #fff;
+        }
+        .backdrop {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.45);
+        }
+    }
+
+    .ui-sidebar-left {
+        direction: $direction;
+    }
+
+    .ui-sidebar-close {
+        color: white;
+        z-index: 9999 !important;
+    }
+}
+
+/*------------------  Table  ---------- */
+
+.ui-table-wrapper {
+    table {
+        thead {
+            th {
+                color: rgba(0, 0, 0, 0.54) !important;
+                font-weight: 500 !important;
+                background: none !important;
+            }
+            tr {
+                background-color: #ffffff !important;
+
+                &:hover {
+                    background-color: #ffffff !important;
+                }
+            }
+        }
+        tbody {
+            tr {
+
+                th,
+                td {
+                    color: rgba(0, 0, 0, 0.58) !important;
+                    font-weight: 400 !important;
+                }
+
+                &:hover {
+                    background-color: #f1f3f3;
+                }
+            }
+        }
+
+        tr {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            align-items: center;
+            min-height: 30px;
+            box-sizing: border-box;
+            th,
+            td {
+                flex: 1;
+                overflow: hidden;
+                word-wrap: break-word;
+                border: none !important;
+            }
+        }
+        tr:nth-child(even) {
+            background-color: #ffffff !important;
+
+            &:hover {
+                background-color: #f1f3f3 !important;
+            }
+        }
+    }
+}
+
+
+body .ui-paginator {
+    
+    border: none !important;
+    //Fix paging button direction in case rtl
+    @if $direction =="rtl" {
+        .pi-step-backward:before {
+            content: "\e917";
+        }
+        .pi-step-forward:before {
+            content: "\e916";
+        }
+        .pi-caret-left:before {
+            content: "\e905";
+        }
+        .pi-caret-right:before {
+            content: "\e904";
+        }
+    }
+}
+
+
+/*------------------   Confirm dialog  ---------- */
+.ui-confirmdialog {
+    .ui-dialog-titlebar {
+        border: none !important;
+        background-color: #ffffff !important;
+    }
+
+    .ui-dialog-content {
+        border: none !important;
+    }
+
+    .ui-dialog-footer {
+        border: none !important;
+    }
+
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12) !important;
+
+    .ui-dialog {
+        box-shadow: 2px 3px 10px 0 rgba(0, 0, 0, 0.4);
+
+        .ui-dialog-titlebar {
+            padding: 1rem;
+
+            span.ui-dialog-title {
+                font-family: $fontFamily;
+                font-size: 1.25rem;
+                color: $titleColor;
+            }
+        }
+
+        .ui-button {
+            font-family: $fontFamily;
+            border: none;
+            margin: 0;
+            min-width: 88px;
+            line-height: 36px;
+            padding: 8px 16px;
+            border-radius: 2px;
+            user-select: none;
+            cursor: pointer;
+            outline: 0;
+            background: transparent;
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                background: rgba(181, 181, 181, 0.3);
+            }
+
+            span.ui-button-text {
+                padding: 0;
+            }
+
+            span.ui-button-icon-left {
+                display: none;
+            }
+        }
+
+        div.ui-dialog-content {
+            padding: 0 1rem;
+            color: $textColor;
+
+            .fa {
+                display: none;
+            }
+
+            span.ui-confirmdialog-message {
+                line-height: 1.5;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+/*------------------  Overlay ---------- */
+
+.ui-overlaypanel {
+    background: #fff;
+    padding: 1rem;
+    max-width: 600px;
+
+    .ui-overlaypanel-close {
+        right: 2px;
+        top: 2px;
+
+        span.fa-fw {
+            font-size: 18px;
+            color: $accent;
+        }
+    }
+}
+
+/*------------------   Growl  ---------- */
+
+.ui-growl {
+    transition: all 2.5s ease;
+}
+
+.ui-growl-message-error {
+    background-color: #f72c2c;
+    color: #fff;
+}

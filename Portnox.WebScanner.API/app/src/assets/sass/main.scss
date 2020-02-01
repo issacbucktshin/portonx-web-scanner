@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+@import './style/variables';
+@import './style/colors';
+@import './style/general';
+@import './style/components';
+@import './style/sidenav';
+
+html,
+body {
+    font-family: $fontFamily;
+    font-size: 14px;
+    background-color: $backgroundColor;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    direction: $direction;
+    text-align: if($direction==rtl, right, left);
+}
+
+button:focus,
+input:focus {
+    outline: none;
+
+}
+
+* {
+
+    :focus {
+        outline: none;
+    }
+}

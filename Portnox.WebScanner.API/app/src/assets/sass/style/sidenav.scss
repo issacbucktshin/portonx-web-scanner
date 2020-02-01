@@ -1,0 +1,16 @@
+.amml-container{
+    
+    .mat-icon{
+        /* Hide arrow icon */
+        visibility: hidden;
+        /*Display navigation icon */
+        &.amml-icon{
+            visibility: visible;
+        }
+    }
+    &.expand{
+        .mat-icon{
+            visibility: visible;
+        }
+    }
+}
