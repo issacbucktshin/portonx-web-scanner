@@ -3,12 +3,12 @@ import { NavigationModel } from "../../model/navigation/navigation.model";
 
 export const MenuItems: NavigationModel[] = [
     {
-        label: 'בית',
+        label: 'Home',
         icon: 'home',
         items: [],
     },
     {
-        label: 'סריקה',
+        label: 'Scanner',
         link: '/scanner',
         icon: 'search',
         items: [

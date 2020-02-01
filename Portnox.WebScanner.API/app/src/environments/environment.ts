@@ -10,7 +10,7 @@ export const environment = {
   ui: {
     rtl: false
   },
-  api: "http://localhost:53576/api/",
+  api: "http://localhost:20393/api/",
   application: {
     title: "Web Scanner",
   },
