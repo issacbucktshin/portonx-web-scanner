@@ -1,4 +1,10 @@
-
-
-
-<router-outlet></router-outlet>
+<app-header (clicked)="expandSidenav = !expandSidenav"></app-header>
+<side-navigation [expand]="expandSidenav"></side-navigation>
+ 
+<div class="main-container">
+    <div class="row">
+        <div class="col">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

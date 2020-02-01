@@ -9,7 +9,7 @@ import { NavigationModel } from 'src/app/model/navigation/navigation.model';
     styleUrls: ['header.component.scss']
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
     user: UserModel;
     title: string = environment.application.title;
     logo: string = '/assets/images/logo.png';
@@ -17,38 +17,8 @@ export class HeaderComponent implements OnInit {
     @Output() clicked = new EventEmitter;
     constructor() { }
 
-    ngOnInit() {
-        this.getCurrentUser();
-        this.initTopNavigation();
-    }
-    initTopNavigation() {
-        this.topNavigation = [
-            {
-                label: "Test 1"
-            },
-            {
-                label: "Test 2"
-            },
-            {
-                label: "Test 3"
-            },
-            {
-                label: "Test 4"
-            },
-            {
-                label: "Test 5"
-            }
-        ];
-    }
     toggleMenu() {
         this.clicked.emit();
     }
-    getCurrentUser() {
-        //imp get current user
-        this.user = new UserModel;
-        this.user.firstName = "Etay";
-        this.user.lastName = "Yosef";
-    }
-    login() {
-    }
+
 }

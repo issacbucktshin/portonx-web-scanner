@@ -12,7 +12,7 @@ export const environment = {
   },
   api: "http://localhost:53576/api/",
   application: {
-    title: "Angular Seed",
+    title: "Web Scanner",
   },
   assets: {
     path: "/"
