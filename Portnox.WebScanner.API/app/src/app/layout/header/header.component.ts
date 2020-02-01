@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { UserModel } from '../../model/user/user.model';
 import { NavigationModel } from 'src/app/model/navigation/navigation.model';
 
 @Component({
@@ -10,7 +9,6 @@ import { NavigationModel } from 'src/app/model/navigation/navigation.model';
 })
 
 export class HeaderComponent {
-    user: UserModel;
     title: string = environment.application.title;
     logo: string = '/assets/images/logo.png';
     topNavigation: NavigationModel[];

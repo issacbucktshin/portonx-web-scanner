@@ -5,6 +5,7 @@ import { ScannerService } from '../scanner.service';
 import { finalize } from 'rxjs/operators';
 import { WebScannerResultModel } from 'src/app/model/sacnner/web-scanner-result.model';
 import { HelperService } from 'src/app/general/helper/helper.service';
+import { WebScannerParamsModel } from 'src/app/model/sacnner/web-scanner-params.model';
 
 @Component({
   selector: 'app-web-scanner',
@@ -17,7 +18,7 @@ export class WebScannerComponent implements OnInit {
   filters: any[];
   scanResult: WebScannerResultModel[];
   loading: boolean;
-  tableColumns: any[] = [];
+  columns: any[] = [];
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<WebScannerResultModel> = null;
 
@@ -29,7 +30,9 @@ export class WebScannerComponent implements OnInit {
 
   ngOnInit() {
     this.initFilters();
+    this.createColumns();
     this.createFilters();
+    this.scan();
   }
   initFilters() {
     this.filters = [
@@ -44,36 +47,31 @@ export class WebScannerComponent implements OnInit {
   createFilters() {
     this.filtersForm = this.formBuilder
       .group({
-        url: ['', []],
+        url: ['http://zetcode.com/csharp/readwebpage/', []],
         threads: [, []],
-        text: ['', []],
+        text: ['Program', []],
         pages: [, []]
       })
   }
   createColumns() {
-    this.tableColumns = [
-      { name: 'name', displayName: "Shipper's name", type: 'link' },
-      { name: 'address', displayName: "Shipper's address", type: 'text' },
-      { name: 'phone', displayName: "Shipper's phone", type: 'phone' },
+    this.columns = [
+      { field: 'page', header: "Page", type: 'link' },
+      { field: 'entrances', header: "Entrances" },
+      { field: 'error', header: "Error", type: 'boolean' },
+      { field: 'errorMessage', header: "Error message" }
     ];
-    this.displayedColumns = this.tableColumns.map(x => x.name);
-    this.displayedColumns.push("shipperCharacterization");
-    this.displayedColumns.push("invoices");
-
+    this.displayedColumns = this.columns.map(x => x.name);
   }
+
   scan() {
     this.loading = true;
-    const filter = this.filtersForm.value;
+    const filter: WebScannerParamsModel = this.filtersForm.value;
     this.scannerService.webScan(filter)
       .pipe(
         finalize(() => this.loading = false)
       )
       .subscribe(
-        result => {
-          this.scanResult = result,
-            this.dataSource ? this.dataSource.data = result : this.dataSource = new MatTableDataSource(result);
-        },
+        result => this.scanResult = result,
         error => this.helperService.handleHttpErrors(error))
-  } F
-
+  }
 }

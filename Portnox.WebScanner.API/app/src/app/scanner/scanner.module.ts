@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { scannerRoutes } from './scanner.route';
 import { AppSharedModule } from '../shared/shared.moduel';
 import { WebScannerComponent } from './web/web-scanner.component';
+import { ScannerService } from './scanner.service';
 
 const routes: Routes = [
   {
@@ -20,6 +21,9 @@ const routes: Routes = [
     CommonModule,
     AppSharedModule,
     RouterModule.forChild(routes),
+  ],
+  providers:[
+    ScannerService
   ]
 })
 export class ScannerModule { }
