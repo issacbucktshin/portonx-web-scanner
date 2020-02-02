@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -16,18 +17,66 @@ namespace Portnox.WebScanner.API.BL.Services
 
         }
 
-        public async Task<List<WebScannerResult>> webSacn(string url, int threads, string text, int pages)
+        public async Task<List<WebScannerResult>> webSacn(string url, int maxThreads, string text, int pages)
         {
-            string pageContent = await readWebPage(url);
-            int entrances = Regex.Matches(pageContent, text).Count;
-            var links = getLinks(pageContent);
-
-
-            return new List<WebScannerResult>(){
-                new WebScannerResult{
+            SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+            List<WebScannerResult> result = new List<WebScannerResult>();
+            try
+            {
+                string pageContent = await readWebPage(url);
+                int entrances = Regex.Matches(pageContent, text).Count;
+                result.Add(new WebScannerResult
+                {
                     Page = url,
-                    Entrances = entrances}
-            };
+                    Entrances = entrances
+                });
+                var links = getLinks(pageContent);
+
+                if (pages == 0)
+                {
+                    return result;
+                }
+                foreach (var link in links)
+                {
+                    try
+                    {
+                        await semaphoreSlim.WaitAsync();
+                        try
+                        {
+                            --pages;
+                            result.AddRange(await webSacn(link.Href, maxThreads, text, pages));
+                        }
+                        finally
+                        {
+                            semaphoreSlim.Release();
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Add(new WebScannerResult
+                        {
+                            Page = url,
+                            Entrances = 0,
+                            Error = true,
+                            errorMessage = ex.Message
+                        });
+                        continue;
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Add(new WebScannerResult
+                {
+                    Page = url,
+                    Entrances = 0,
+                    Error = true,
+                    errorMessage = ex.Message
+                });
+                return result;
+            }
         }
 
         private async Task<string> readWebPage(string url)

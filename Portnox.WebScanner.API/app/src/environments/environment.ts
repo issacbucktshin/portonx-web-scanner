@@ -12,7 +12,7 @@ export const environment = {
   },
   api: "http://localhost:20393/api/",
   application: {
-    title: "Web Scanner",
+    title: "Scanners",
   },
   assets: {
     path: "/"
