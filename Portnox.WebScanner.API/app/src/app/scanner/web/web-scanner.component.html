@@ -16,7 +16,7 @@
                     <div class="save-container ml-auto p-2">
                         <button mat-raised-button color='primary' (click)="scan()" class="round"
                             [disabled]="!filtersForm.valid || loading">
-                            <span>Scan</span>
+                            <span>{{loading ? 'Scanning' : 'Scan'}}</span>
                         </button>
                         <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
                     </div>

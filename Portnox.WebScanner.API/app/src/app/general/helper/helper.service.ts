@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/components/common/messageservice';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HelperService {
-    constructor(private router: Router) { }
+    constructor(private router: Router, private messageService: MessageService) { }
 
     convertBase64ToBlob(b64Data: string, contentType: string) {
         contentType = contentType || '';
@@ -74,12 +74,12 @@ export class HelperService {
             showCloseIcon: false
         }
         //ToDo
-        // if (!toast) {
-        //     this.dialogService.alert(alert).subscribe();
-        // }
-        // else {
-        //     this.generalService.showSingleToast(alert.header, alert.message, 'error')
-        // }
+        if (!toast) {
+            // this.dialogService.alert(alert).subscribe();
+        }
+        else {
+            this.showErrorToast(alert.header, alert.message);
+        }
 
         switch (response.status) {
             case 401:
@@ -119,5 +119,9 @@ export class HelperService {
         url = url.replace(/null/g, '');
         url = url.replace(/undefined/g, '');
         return url;
+    }
+
+    showErrorToast(summary: string, message: string) {
+        this.messageService.add({ severity: 'erroe', summary: summary, detail: message, key: 'app' });
     }
 }

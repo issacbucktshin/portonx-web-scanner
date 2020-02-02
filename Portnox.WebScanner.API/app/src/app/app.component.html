@@ -1,6 +1,6 @@
 <app-header (clicked)="expandSidenav = !expandSidenav"></app-header>
 <side-navigation [expand]="expandSidenav"></side-navigation>
- 
+
 <div class="main-container">
     <div class="row">
         <div class="col">
@@ -8,3 +8,13 @@
         </div>
     </div>
 </div>
+<p-toast position="top-right" key="app" [autoZIndex]='true' [baseZIndex]="5000" [showTransitionOptions]="'0ms'"
+    [hideTransitionOptions]="'1100ms'" class="custom-toast">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center; ">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+    </ng-template>
+</p-toast>

@@ -22,13 +22,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 /** PrimeNg Modules  */
+import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { SelectComponent } from './controls/select/select.component';
 import { AutofocusDirective } from './directives/focus/auto-focus.directive';
 import { SidebarModule } from 'primeng/sidebar';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTableModule, MatIconModule, MatProgressBarModule } from '@angular/material';
 import { GeneralService } from './services/general/general.service';
@@ -97,7 +98,8 @@ import { GeneralService } from './services/general/general.service';
     ],
     providers: [
         ConfirmationService,
-        GeneralService
+        GeneralService,
+        MessageService
     ],
 })
 export class AppSharedModule { }
