@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { ScannerService } from '../scanner.service';
 import { finalize } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class WebScannerComponent implements OnInit {
   filters: any[];
   scanResult: WebScannerResultModel[];
   loading: boolean;
+  scraping: boolean;
   columns: any[] = [];
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<WebScannerResultModel> = null;
@@ -32,7 +33,6 @@ export class WebScannerComponent implements OnInit {
     this.initFilters();
     this.createColumns();
     this.createFilters();
-    this.scan();
   }
   initFilters() {
     this.filters = [
@@ -47,10 +47,10 @@ export class WebScannerComponent implements OnInit {
   createFilters() {
     this.filtersForm = this.formBuilder
       .group({
-        url: ['http://zetcode.com/csharp/readwebpage/', []],
-        threads: [, []],
-        text: ['Program', []],
-        pages: [, []]
+        url: ['http://zetcode.com/csharp/readwebpage/', [Validators.required]],
+        threads: [1, []],
+        text: ['Program', [Validators.required]],
+        pages: [10, []]
       })
   }
   createColumns() {
@@ -66,7 +66,7 @@ export class WebScannerComponent implements OnInit {
   scan() {
     this.loading = true;
     const filter: WebScannerParamsModel = this.filtersForm.value;
-    this.scannerService.webScan(filter)
+    this.scannerService.scrapSite(filter)
       .pipe(
         finalize(() => this.loading = false)
       )

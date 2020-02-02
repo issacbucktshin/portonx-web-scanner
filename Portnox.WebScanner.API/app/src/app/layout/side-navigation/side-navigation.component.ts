@@ -28,9 +28,7 @@ export class SideNavigationComponent implements OnInit {
         this.updateConfig(change['expand'].currentValue);
     }
     onSelectedItem(item: NavigationModel) {
-        debugger
-        console.log('on selected item', item);
-        //redirect user to extrenal page
+
         if (item.externalRedirect) {
             window.location.href = item.link;
         }

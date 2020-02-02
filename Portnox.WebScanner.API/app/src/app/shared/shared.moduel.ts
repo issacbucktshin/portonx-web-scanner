@@ -30,7 +30,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatTableModule, MatIconModule } from '@angular/material';
+import { MatTableModule, MatIconModule, MatProgressBarModule } from '@angular/material';
 import { GeneralService } from './services/general/general.service';
 
 @NgModule({
@@ -65,6 +65,7 @@ import { GeneralService } from './services/general/general.service';
         MatChipsModule,
         MatAutocompleteModule,
         MatTableModule,
+        MatProgressBarModule,
         MatIconModule,
         /* Primeng  */
         TableModule,

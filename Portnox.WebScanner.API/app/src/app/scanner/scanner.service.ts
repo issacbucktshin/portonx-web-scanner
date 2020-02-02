@@ -13,7 +13,7 @@ export class ScannerService {
     private httpClient: HttpClient
   ) { }
 
-  webScan(params: WebScannerParamsModel) {
+  scrapSite(params: WebScannerParamsModel) {
     let url: string = `${this.api}/web`;
     url += this.helperService.buildQueryString(params);
     return this.httpClient.get<WebScannerResultModel[]>(url);

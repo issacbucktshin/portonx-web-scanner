@@ -29,7 +29,8 @@
     "boostrap": "^2.0.0",
     "bootstrap": "^4.3.1",
     "ng-material-multilevel-menu": "^4.9.6",
-    "primeng": "^8.0.0"
+    "primeng": "^8.0.0",
+    "primeicons": "^2.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.801.0",
