@@ -1,0 +1,66 @@
+<div class="web-scanner-page">
+    <div class='card'>
+        <header>
+            <h4 class='title gray-opacity'>Web Scanner</h4>
+        </header>
+        <div class='card-body'>
+            <form [formGroup]="filtersForm" autocomplete="off">
+                <div class="filters d-flex row m-0">
+                    <div class="filter p-0 mr-4 col" *ngFor="let filter of filters">
+                        <mat-form-field>
+                            <input [formControlName]="filter.property" [type]='filter.type' matInput
+                                [placeholder]="filter.label">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="save-container ml-auto p-2">
+                        <button mat-raised-button color='primary' (click)="scan()" class="round">
+                            Scan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class='card'>
+        <header class="d-flex justify-content-between">
+            <h4 class='title gray-opacity'>Scan report</h4>
+        </header>
+        <div class="card-body">
+            <p-table #dt [value]="scanResult" emptyMessage="No data" [rows]="10" styleClass="pointer"
+                [columns]="columns">
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr class="row-table">
+                        <th [ngClass]="'accent font-weight'" *ngFor="let col of columns" class="col-table">
+                            {{col.header}}</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-report let-index>
+                    <tr [ngClass]="'row-table'">
+                        <td [ngClass]="'col-table'" *ngFor="let col of columns">
+                            <span *ngIf="col.subfield && !col.type">
+                                {{report[col.field] && report[col.field].hasOwnProperty(col.subfield) ? report[col.field][col.subfield] : ''}}
+                            </span>
+                            <span *ngIf="!col.subfield && !col.type">
+                                {{report[col.field]}}
+                            </span>
+                            <span *ngIf="col.type && col.type=='date'">
+                                {{report[col.field] | dateFormat:'dd/mm/yyyy'}}
+                            </span>
+                            <span *ngIf="col.type && col.type=='link'">
+                               <a [href]="report[col.field]">Link</a>
+                            </span>
+                            <span [class.red-text]="report[col.field]" *ngIf="col.type && col.type=='boolean'">
+                                {{report[col.field] ? 'Yes': 'No'}}
+                            </span>
+                            
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <loading *ngIf='loading'></loading>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { MenuItems } from './side-navigation-routes.config';
 import { NavigationModel } from '../../model/navigation/navigation.model';
-// import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'side-navigation',
@@ -19,25 +18,17 @@ export class SideNavigationComponent implements OnInit {
 
     ngOnInit() {
         this.menuItems = MenuItems;
-        // this.translateMenuLabels(this.menuItems);
         this.config = {
             rtlLayout: environment.ui.rtl,
             classname: ""
         }
     }
-    // translateMenuLabels(items: NavigationModel[]) {
-    //     if (!items)
-    //         return;
-    //     for (let index = 0; index < items.length; index++) {
-    //         const element = items[index];
-    //         this.translateService.get(element.label).subscribe(s => element.label = s);
-    //         this.translateMenuLabels(element.items);
-    //     }
-    // }
+
     ngOnChanges(change: SimpleChanges): void {
         this.updateConfig(change['expand'].currentValue);
     }
     onSelectedItem(item: NavigationModel) {
+        debugger
         console.log('on selected item', item);
         //redirect user to extrenal page
         if (item.externalRedirect) {
@@ -48,7 +39,6 @@ export class SideNavigationComponent implements OnInit {
         }
     }
     updateConfig(expand: boolean) {
-        console.log('exapnd', expand);
         this.config = {
             rtlLayout: environment.ui.rtl,
             classname: expand ? 'expand' : ''

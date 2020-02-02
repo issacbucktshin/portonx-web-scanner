@@ -14,22 +14,24 @@ import { DefaultPathPipe } from './pipes/default-path/default-path.pipe';
 
 
 /* Material modules */
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 /** PrimeNg Modules  */
-import {TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { SelectComponent } from './controls/select/select.component';
 import { AutofocusDirective } from './directives/focus/auto-focus.directive';
 import { SidebarModule } from 'primeng/sidebar';
-import {ContextMenuModule} from 'primeng/contextmenu';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatTableModule, MatIconModule } from '@angular/material';
+import { GeneralService } from './services/general/general.service';
 
 @NgModule({
     imports: [
@@ -42,7 +44,7 @@ import { TranslateModule } from '@ngx-translate/core';
         ContextMenuModule,
         MatChipsModule,
         MatAutocompleteModule,
-        ConfirmDialogModule   
+        ConfirmDialogModule
     ],
     exports: [
         /* Angular  */
@@ -54,7 +56,7 @@ import { TranslateModule } from '@ngx-translate/core';
         PlayEffectSpinnerComponent,
         LoadingComponent,
         InlineSpinnerComponent,
-        /* Material  */        
+        /* Material  */
         MatButtonModule,
         MatInputModule,
         MatCheckboxModule,
@@ -62,36 +64,39 @@ import { TranslateModule } from '@ngx-translate/core';
         MatSlideToggleModule,
         MatChipsModule,
         MatAutocompleteModule,
-        /* Primeng  */        
+        MatTableModule,
+        MatIconModule,
+        /* Primeng  */
         TableModule,
         SidebarModule,
-        ContextMenuModule,  
-        ConfirmDialogModule,      
-        /* Directives  */ 
+        ContextMenuModule,
+        ConfirmDialogModule,
+        /* Directives  */
         AutofocusDirective,
-        /* pipes  */  
-        DateFormatPipe,              
+        /* pipes  */
+        DateFormatPipe,
         DefaultPathPipe,
-        /* Componenet  */  
+        /* Componenet  */
         SelectComponent
-        
+
     ],
     declarations: [
         /* loaders  */
         LoadingComponent,
         PlayEffectSpinnerComponent,
         InlineSpinnerComponent,
-         /* Directives  */ 
-         AutofocusDirective,
+        /* Directives  */
+        AutofocusDirective,
         /* pipes  */
         DateFormatPipe,
         DefaultPathPipe,
-         /* Componenet  */  
-         SelectComponent
-        
+        /* Componenet  */
+        SelectComponent
+
     ],
     providers: [
-        ConfirmationService
+        ConfirmationService,
+        GeneralService
     ],
 })
 export class AppSharedModule { }

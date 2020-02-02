@@ -2,7 +2,7 @@
     <div class="nav-container">
         <div class="navigation-container">
             <ng-material-multilevel-menu [configuration]='config' [items]='menuItems'
-                (selectedItem)="onSelectedItem($event)">
+                (selectedItem)="onSelectedItem($event)" (selectedLabel)="onSelectedItem($event)">
             </ng-material-multilevel-menu>
         </div>
     </div>
