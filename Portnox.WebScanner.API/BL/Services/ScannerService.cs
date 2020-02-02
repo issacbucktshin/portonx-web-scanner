@@ -1,5 +1,7 @@
-﻿using Portnox.WebScanner.API.Models;
+﻿using Portnox.WebScanner.API.Extensions;
+using Portnox.WebScanner.API.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -17,12 +19,16 @@ namespace Portnox.WebScanner.API.BL.Services
 
         }
 
-        public async Task<List<WebScannerResult>> webSacn(string url, int maxThreads, string text, int pages)
+        public async Task<List<WebScannerResult>> WebScan(string url, int maxThreads, string text, int maxPages)
         {
-            SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-            List<WebScannerResult> result = new List<WebScannerResult>();
+            ConcurrentBag<WebScannerResult> result = new ConcurrentBag<WebScannerResult>();
             try
             {
+                if (maxPages <= 0)
+                {
+                    return result.ToList();
+                }
+
                 string pageContent = await readWebPage(url);
                 int entrances = Regex.Matches(pageContent, text).Count;
                 result.Add(new WebScannerResult
@@ -30,27 +36,19 @@ namespace Portnox.WebScanner.API.BL.Services
                     Page = url,
                     Entrances = entrances
                 });
+
                 var links = getLinks(pageContent);
 
-                if (pages == 0)
-                {
-                    return result;
-                }
-                foreach (var link in links)
+
+                Parallel.ForEach(links, async (link) =>
                 {
                     try
                     {
-                        await semaphoreSlim.WaitAsync();
-                        try
+                        var scannerResults = await WebScan(link.Href, maxThreads, text, --maxPages);
+                        lock (result)
                         {
-                            --pages;
-                            result.AddRange(await webSacn(link.Href, maxThreads, text, pages));
+                            result.AddRange(scannerResults);
                         }
-                        finally
-                        {
-                            semaphoreSlim.Release();
-                        }
-
                     }
                     catch (Exception ex)
                     {
@@ -61,10 +59,10 @@ namespace Portnox.WebScanner.API.BL.Services
                             Error = true,
                             errorMessage = ex.Message
                         });
-                        continue;
+                        return;
                     }
-                }
-                return result;
+                });
+                return result.ToList();
             }
             catch (Exception ex)
             {
@@ -75,8 +73,54 @@ namespace Portnox.WebScanner.API.BL.Services
                     Error = true,
                     errorMessage = ex.Message
                 });
-                return result;
+                return result.ToList();
             }
+        }
+
+        public async Task<List<WebScannerResult>> ScrapSite(string url, int maxThreads, string text, int maxPages)
+        {
+            ConcurrentBag<WebScannerResult> result = new ConcurrentBag<WebScannerResult>();
+            SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+
+            string pageContent = await readWebPage(url);
+            int entrances = Regex.Matches(pageContent, text).Count;
+            var links = getLinks(pageContent);
+
+            if (maxPages <= 0)
+            {
+                return result.ToList();
+            }
+            foreach (var link in links)
+            {
+                await semaphoreSlim.WaitAsync();
+                try
+                {
+                    --maxPages;
+                    result.AddRange(await ScrapSite(link.Href, maxThreads, text, maxPages));
+
+                }
+                catch (Exception ex)
+                {
+                    result.Add(new WebScannerResult()
+                    {
+                        Page = url,
+                        Entrances = 0,
+                        Error = true,
+                        errorMessage = ex.Message
+                    });
+                }
+                finally
+                {
+                    semaphoreSlim.Release();
+                }
+            }
+            result.Add(new WebScannerResult()
+            {
+                Page = url,
+                Entrances = entrances
+            });
+            return result.ToList();
+
         }
 
         private async Task<string> readWebPage(string url)

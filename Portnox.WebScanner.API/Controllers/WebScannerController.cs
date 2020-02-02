@@ -29,7 +29,8 @@ namespace Portnox.WebScanner.API.Controllers
                     throw new ArgumentNullException(nameof(text));
                 }
 
-                var result = await scannerService.webSacn(url, threads, text, pages);
+                var result = await Task.Run(() => scannerService.ScrapSite(url, threads, text, pages));
+                //scannerService.webScan(url, threads, text, pages);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
