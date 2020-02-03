@@ -47,7 +47,7 @@ export class WebScannerComponent implements OnInit {
   createFilters() {
     this.filtersForm = this.formBuilder
       .group({
-        url: ['http://zetcode.com/csharp/readwebpage/', [Validators.required]],
+        url: ['https://www.portnox.com/', [Validators.required]],
         threads: [1, []],
         text: ['Program', [Validators.required]],
         pages: [10, []]

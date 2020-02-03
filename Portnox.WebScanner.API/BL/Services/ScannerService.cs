@@ -20,13 +20,13 @@ namespace Portnox.WebScanner.API.BL.Services
             SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
             // Get page content
-            string pageContent = await readWebPage(url);
+            string pageContent = await getPageContent(url);
            
             // Search for entrances
             int entrances = Regex.Matches(pageContent, text).Count;
 
             // Extract links (Distinct)
-            var links = getLinks(pageContent).Distinct();
+            var subPages = getSubPages(pageContent).Distinct();
 
             results.Add(new WebScannerResult()
             {
@@ -35,7 +35,7 @@ namespace Portnox.WebScanner.API.BL.Services
             });
 
             // Scrap sub pages
-            foreach (var link in links)
+            foreach (var page in subPages)
             {
                 // Lock to prevent from mutual access to maxPages variable
                 await semaphoreSlim.WaitAsync();
@@ -47,21 +47,21 @@ namespace Portnox.WebScanner.API.BL.Services
                         return results.ToList();
                     }
                     // Double Scanning Prevention
-                    if (results.ToList().Select(r => r.Page).Contains(link.Href))
+                    if (results.ToList().Select(r => r.Page).Contains(page.Href))
                     {
                         continue;
                     }
                     // Read (recursive) sub-pages
                     else
                     {
-                        results.AddRange(await ScrapSite(link.Href, maxThreads, text, maxPages));
+                        results.AddRange(await ScrapSite(page.Href, maxThreads, text, maxPages));
                     }
                 }
                 catch (Exception ex)
                 {
                     results.Add(new WebScannerResult()
                     {
-                        Page = link.Href,
+                        Page = page.Href,
                         Entrances = 0,
                         Error = true,
                         errorMessage = ex.Message
@@ -76,7 +76,7 @@ namespace Portnox.WebScanner.API.BL.Services
             return results.ToList();
         }
 
-        private async Task<string> readWebPage(string url)
+        private async Task<string> getPageContent(string url)
         {
             using (var client = new HttpClient())
             {
@@ -84,7 +84,7 @@ namespace Portnox.WebScanner.API.BL.Services
             }
         }
 
-        private List<LinkItem> getLinks(string file)
+        private List<LinkItem> getSubPages(string file)
         {
             List<LinkItem> list = new List<LinkItem>();
 

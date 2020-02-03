@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ScannerComponent } from './scanner/scanner.component';
 import { WebScannerComponent } from './web/web-scanner.component';
 
 export const scannerRoutes: Routes = [
