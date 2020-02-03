@@ -18,5 +18,5 @@ export class HeaderComponent {
     toggleMenu() {
         this.clicked.emit();
     }
-
+    logout() { }
 }

@@ -18,6 +18,8 @@ import { HomeComponent } from './home/home.component';
 
 
 import { AppRoutingModule } from './app-routing.module';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -30,9 +32,10 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     AppLayoutModule,
+    ToastModule
   ],
   providers: [
-    HelperService,
+    HelperService,MessageService
   ],
   bootstrap: [AppComponent]
 })

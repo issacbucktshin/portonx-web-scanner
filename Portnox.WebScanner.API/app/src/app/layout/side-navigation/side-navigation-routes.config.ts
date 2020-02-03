@@ -5,15 +5,12 @@ export const MenuItems: NavigationModel[] = [
     {
         label: 'Home',
         icon: 'home',
-        items: [],
+        link: '/home',
     },
     {
         label: 'Scanner',
         link: '/scanner',
         icon: 'search',
-        items: [
-            
-        ]
     },
      
 ];

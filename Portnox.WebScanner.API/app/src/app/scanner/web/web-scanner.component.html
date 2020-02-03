@@ -14,21 +14,24 @@
 
                     </div>
                     <div class="save-container ml-auto p-2">
-                        <button mat-raised-button color='primary' (click)="scan()" class="round">
-                            Scan
+                        <button mat-raised-button color='primary' (click)="scan()" class="round"
+                            [disabled]="!filtersForm.valid || loading">
+                            <span>{{loading ? 'Scanning' : 'Scan'}}</span>
                         </button>
+                        <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
     <div class='card'>
         <header class="d-flex justify-content-between">
             <h4 class='title gray-opacity'>Scan report</h4>
         </header>
         <div class="card-body">
             <p-table #dt [value]="scanResult" emptyMessage="No data" [rows]="10" styleClass="pointer"
-                [columns]="columns">
+                [columns]="columns" [paginator]="true" [responsive]="true" autoLayout="true">
 
                 <ng-template pTemplate="header" let-columns>
                     <tr class="row-table">
@@ -37,7 +40,7 @@
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-report let-index>
+                <ng-template pTemplate="body" let-report let-index *ngIf="!loading">
                     <tr [ngClass]="'row-table'">
                         <td [ngClass]="'col-table'" *ngFor="let col of columns">
                             <span *ngIf="col.subfield && !col.type">
@@ -50,17 +53,17 @@
                                 {{report[col.field] | dateFormat:'dd/mm/yyyy'}}
                             </span>
                             <span *ngIf="col.type && col.type=='link'">
-                               <a [href]="report[col.field]">Link</a>
+                                <a [href]="report[col.field]">{{report[col.field]}}</a>
                             </span>
                             <span [class.red-text]="report[col.field]" *ngIf="col.type && col.type=='boolean'">
                                 {{report[col.field] ? 'Yes': 'No'}}
                             </span>
-                            
+
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
-            <loading *ngIf='loading'></loading>
         </div>
+        <loading *ngIf='loading'></loading>
     </div>
 </div>

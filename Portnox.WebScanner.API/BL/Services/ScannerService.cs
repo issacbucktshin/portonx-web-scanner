@@ -14,96 +14,54 @@ namespace Portnox.WebScanner.API.BL.Services
 {
     public class ScannerService
     {
-        public ScannerService()
-        {
-
-        }
-
-        public async Task<List<WebScannerResult>> WebScan(string url, int maxThreads, string text, int maxPages)
-        {
-            ConcurrentBag<WebScannerResult> result = new ConcurrentBag<WebScannerResult>();
-            try
-            {
-                if (maxPages <= 0)
-                {
-                    return result.ToList();
-                }
-
-                string pageContent = await readWebPage(url);
-                int entrances = Regex.Matches(pageContent, text).Count;
-                result.Add(new WebScannerResult
-                {
-                    Page = url,
-                    Entrances = entrances
-                });
-
-                var links = getLinks(pageContent);
-
-
-                Parallel.ForEach(links, async (link) =>
-                {
-                    try
-                    {
-                        var scannerResults = await WebScan(link.Href, maxThreads, text, --maxPages);
-                        lock (result)
-                        {
-                            result.AddRange(scannerResults);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        result.Add(new WebScannerResult
-                        {
-                            Page = url,
-                            Entrances = 0,
-                            Error = true,
-                            errorMessage = ex.Message
-                        });
-                        return;
-                    }
-                });
-                return result.ToList();
-            }
-            catch (Exception ex)
-            {
-                result.Add(new WebScannerResult
-                {
-                    Page = url,
-                    Entrances = 0,
-                    Error = true,
-                    errorMessage = ex.Message
-                });
-                return result.ToList();
-            }
-        }
-
         public async Task<List<WebScannerResult>> ScrapSite(string url, int maxThreads, string text, int maxPages)
         {
-            ConcurrentBag<WebScannerResult> result = new ConcurrentBag<WebScannerResult>();
+            ConcurrentBag<WebScannerResult> results = new ConcurrentBag<WebScannerResult>();
             SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
-            string pageContent = await readWebPage(url);
+            // Get page content
+            string pageContent = await getPageContent(url);
+           
+            // Search for entrances
             int entrances = Regex.Matches(pageContent, text).Count;
-            var links = getLinks(pageContent);
 
-            if (maxPages <= 0)
+            // Extract links (Distinct)
+            var subPages = getSubPages(pageContent).Distinct();
+
+            results.Add(new WebScannerResult()
             {
-                return result.ToList();
-            }
-            foreach (var link in links)
+                Page = url,
+                Entrances = entrances
+            });
+
+            // Scrap sub pages
+            foreach (var page in subPages)
             {
+                // Lock to prevent from mutual access to maxPages variable
                 await semaphoreSlim.WaitAsync();
                 try
                 {
                     --maxPages;
-                    result.AddRange(await ScrapSite(link.Href, maxThreads, text, maxPages));
-
+                    if (maxPages <= 0)
+                    {
+                        return results.ToList();
+                    }
+                    // Double Scanning Prevention
+                    if (results.ToList().Select(r => r.Page).Contains(page.Href))
+                    {
+                        continue;
+                    }
+                    // Read (recursive) sub-pages
+                    else
+                    {
+                        results.AddRange(await ScrapSite(page.Href, maxThreads, text, maxPages));
+                    }
                 }
                 catch (Exception ex)
                 {
-                    result.Add(new WebScannerResult()
+                    results.Add(new WebScannerResult()
                     {
-                        Page = url,
+                        Page = page.Href,
                         Entrances = 0,
                         Error = true,
                         errorMessage = ex.Message
@@ -111,19 +69,14 @@ namespace Portnox.WebScanner.API.BL.Services
                 }
                 finally
                 {
+                    // Release the critical section
                     semaphoreSlim.Release();
                 }
             }
-            result.Add(new WebScannerResult()
-            {
-                Page = url,
-                Entrances = entrances
-            });
-            return result.ToList();
-
+            return results.ToList();
         }
 
-        private async Task<string> readWebPage(string url)
+        private async Task<string> getPageContent(string url)
         {
             using (var client = new HttpClient())
             {
@@ -131,7 +84,7 @@ namespace Portnox.WebScanner.API.BL.Services
             }
         }
 
-        private List<LinkItem> getLinks(string file)
+        private List<LinkItem> getSubPages(string file)
         {
             List<LinkItem> list = new List<LinkItem>();
 

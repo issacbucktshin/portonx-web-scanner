@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScannerComponent } from './scanner.component';
+import { ScannerModule } from '../scanner.module';
+import { AppSharedModule } from 'src/app/shared/shared.moduel';
 
 describe('ScannerComponent', () => {
   let component: ScannerComponent;
@@ -8,7 +10,8 @@ describe('ScannerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScannerComponent ]
+      declarations: [ ScannerComponent ],
+      imports:[ScannerModule,AppSharedModule]
     })
     .compileComponents();
   }));
